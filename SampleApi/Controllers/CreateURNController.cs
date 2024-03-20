@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SampleApi.Controllers.Model;
+using SampleApi.Modal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SampleApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]    
     [ApiController]
     public class CreateURNController : ControllerBase
     {
@@ -19,21 +21,26 @@ namespace SampleApi.Controllers
         {
             ExamContext = examContext;
         }
-        RequestCandidate CndData = new RequestCandidate();
-        [Route("api/KmiExam/GenURN")]
+        
+        [Route("KmiExam/GenURN")]
+       
         [HttpPost]
      
-        public ActionResult<IEnumerable<ApiResult>> GenURN(RequestCandidate CndData)
+        public ActionResult<IEnumerable<ApiResult>> GenURN(RequestURNGenerate CndData)
         {
             try
             {
-                if (CndData == null)
+                if (!ModelState.IsValid)
                 {
-                    return BadRequest("Invalid request data");
+                    // Model is not valid, return validation errors
+                    return BadRequest(ModelState);
                 }
                 else
                 {
-                    var results = ExamContext.ApiResult.FromSqlRaw("EXEC Prc_ApiResult @PAN", new SqlParameter("@PAN", CndData.PAN)).ToList();
+                   
+                    // var results2 = UsrmgmtContext.SponsorshipRecord.FromSqlRaw("EXEC Prc_GetSponsorshipRcrd @ColumnName", new SqlParameter("@ColumnName", "")).ToList();
+                 
+                    var results = ExamContext.ApiResult.FromSqlRaw("EXEC Prc_URNGenrate @PAN", new SqlParameter("@PAN", CndData.PAN)).ToList();
                     return Ok(results);
                 }
             }
@@ -50,10 +57,10 @@ namespace SampleApi.Controllers
         }
 
 
-        [Route("api/KmiExam/UpdateURN")]
+        [Route("KmiExam/UpdateURN")]
         [HttpPost]
 
-        public ActionResult<IEnumerable<ApiResult>> UpdateURN(RequestCandidate CndData)
+        public ActionResult<IEnumerable<ApiResult>> UpdateURN(RequestURNUpdate CndData)
         {
             try
             {
@@ -80,10 +87,10 @@ namespace SampleApi.Controllers
         }
         
 
-        [Route("KmiExam/RegExamCenter")]
+        [Route("KmiExam/ExamRegistration")]
         [HttpPost]
 
-        public ActionResult<IEnumerable<ApiResult>> RegExamCenter(RequestCandidate CndData)
+        public ActionResult<IEnumerable<ApiResult>> ExamRegistration(RequestExmCenter CndData)
         {
             try
             {
@@ -101,6 +108,19 @@ namespace SampleApi.Controllers
                         {
                             list = new[]
          {
+            new
+            {
+                URN = "ABCI0101230001",
+                PreferredDate = "31-Mar-2023",
+                EmailId = "abcd@abcd.com",
+                BatchMode = "Single",
+                PaymentMode = "Online Payment",
+                SchedulingMode = "AUTO",
+                IsValid = true,
+                Error = "",
+                ExamBatchNo = "ABCD12312312323"
+            }
+            ,
             new
             {
                 URN = "ABCI0101230001",
@@ -136,7 +156,7 @@ namespace SampleApi.Controllers
          [Route("api/KmiExam/DuplicateURN")]
         [HttpPost]
 
-        public IActionResult DuplicateURN(RequestCandidate CndData)
+        public IActionResult DuplicateURN(RequestURNGenerate CndData)
         {
             try
             {

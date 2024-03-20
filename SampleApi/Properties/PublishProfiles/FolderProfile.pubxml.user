@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>E:\PublishApi</_PublishTargetUrl>
+    <History>True|2024-03-19T14:25:56.7606296Z;True|2024-03-19T19:43:09.1720302+05:30;True|2024-03-19T19:18:52.4444582+05:30;True|2024-03-19T19:13:43.8835524+05:30;True|2024-03-19T17:54:46.2784846+05:30;False|2024-03-19T17:54:15.1992887+05:30;True|2024-03-19T17:10:42.7282729+05:30;True|2024-03-19T16:44:58.0653614+05:30;</History>
+  </PropertyGroup>
+</Project>

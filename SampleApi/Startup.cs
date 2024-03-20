@@ -29,8 +29,25 @@ namespace SampleApi
         {
             services.AddDbContext<ExamContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("Dbconnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("ExamDB"));
             });
+            services.AddDbContext<ExamContext2>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("ExamDB2"));
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+            });
+
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -40,14 +57,15 @@ namespace SampleApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            app.UseCors("AllowAll");
+            //if (env.IsDevelopment())// coomment this part for hosting 
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SampleApi v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection(); // coomment this part for hosting 
 
             app.UseRouting();
 
@@ -57,6 +75,7 @@ namespace SampleApi
             {
                 endpoints.MapControllers();
             });
+           
         }
     }
 }

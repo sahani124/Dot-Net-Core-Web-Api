@@ -15,6 +15,9 @@ namespace SampleApi.Controllers.Model
         public DbSet<CndPer> CndPer { get; set; }
         public DbSet<ApiResult> ApiResult { get; set; }
         public DbSet<ExmCentreList> ExmCentreList { get; set; }
+        public DbSet<Isyslookupparam> Isyslookupparam { get; set; }
+
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CndPer>().HasNoKey();

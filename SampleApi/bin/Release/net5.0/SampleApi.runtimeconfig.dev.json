@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\KMI-MP1EGBGW\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\KMI-MP1EGBGW\\.nuget\\packages"
+    ]
+  }
+}
